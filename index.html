@@ -7,6 +7,14 @@
 </head>
 <body>
   <div id="app">
+
+    <label v-for="label in options">
+      <input type="radio"
+        v-model="current"
+        v-bind:value="label.value">{{ label.label }}
+    </label>
+     <!-- ★STEP12 -->
+     （{{ computedTodos.length }} 件を表示）
     <table>
       <!-- テーブルヘッダー -->
     <thead>
@@ -25,7 +33,7 @@
     <td>{{ item.comment }}</td>
     <td class="state">
       <!-- 状態変更ボタンのモック -->
-      <button v-on:click="doChangeState(item)">{{ item.state }}</button>
+      <button v-on:click="doChangeState(item)">{{ labels[item.state] }}</button>
     </td>
     <td class="button">
       <!-- 削除ボタンのモック -->
@@ -34,6 +42,7 @@
         </tr>
     </tbody>
     </table>
+    <p>※削除ボタンはコントロールキーを押しながらクリックして下さい</p>
 
     <h2>新しい作業の追加</h2>
 <form class="add-form" v-on:submit.prevent="doAdd">

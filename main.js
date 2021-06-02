@@ -1,4 +1,5 @@
 var STORAGE_KEY = 'todos-vuejs-demo'
+
 var todoStorage = {
   fetch: function() {
     var todos = JSON.parse(
@@ -18,9 +19,34 @@ var todoStorage = {
 const app = new Vue({
   el: '#app',
   data: {
-    todos:[]
+    todos:[],
+    //↓最初の選択範囲がすべてになる//
+    current: -1,
+    options: [
+      { value: -1, label: 'すべて' },
+      { value: 0, label: '作業中' },
+      { value: 1, label: '完了' }
+    ]
   },
-  
+
+  computed: {
+
+    // ★STEP12
+    computedTodos: function () {
+      return this.todos.filter(function (el) {
+        return this.current < 0 ? true : this.current === el.state
+      }, this)
+    },
+
+    labels() {
+      return this.options.reduce(function (a, b) {
+        return Object.assign(a, { [b.value]: b.label })
+      }, {})
+      // キーから見つけやすいように、次のように加工したデータを作成
+      // {0: '作業中', 1: '完了', -1: 'すべて'}
+    }
+  },
+
   watch: {
     // オプションを使う場合はオブジェクト形式にする
     todos: {
